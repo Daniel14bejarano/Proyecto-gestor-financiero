@@ -69,6 +69,7 @@
       <a href="regGasto.jsp"        class="sidebar-link">➖ Registrar gasto</a>
       <a href="registros.jsp"       class="sidebar-link">📋 Ver registros</a>
       <a href="balance.jsp"         class="sidebar-link">📊 Ver balance</a>
+      <a href="auditoria.jsp" class="sidebar-link">🔍 Auditoría</a>
       <a href="logout"              class="sidebar-link">🚪 Cerrar sesión</a>
     </div>
 
