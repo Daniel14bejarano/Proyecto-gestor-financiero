@@ -2,33 +2,21 @@ package modelo;
 
 public class Usuario {
 
-    private int iddato;
-    private String identificacion;
+    private int idUsuario;
     private String nombre;
     private String apellido;
-    private String email;
-    private String telefono;
-    private String usuario;
-    private String clave;
-    private String perfil;
+    private int idPerfil;
+    private String username;
+    private String passwordHash;
+    private String fechaCreacion;
+    private String estado;
 
-    public Usuario() {
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public int getIddato() {
-        return iddato;
-    }
-
-    public void setIddato(int v) {
-        this.iddato = v;
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(String v) {
-        this.identificacion = v;
+    public void setIdUsuario(int v) {
+        this.idUsuario = v;
     }
 
     public String getNombre() {
@@ -47,43 +35,43 @@ public class Usuario {
         this.apellido = v;
     }
 
-    public String getEmail() {
-        return email;
+    public int getIdPerfil() {
+        return idPerfil;
     }
 
-    public void setEmail(String v) {
-        this.email = v;
+    public void setIdPerfil(int v) {
+        this.idPerfil = v;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getUsername() {
+        return username;
     }
 
-    public void setTelefono(String v) {
-        this.telefono = v;
+    public void setUsername(String v) {
+        this.username = v;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setUsuario(String v) {
-        this.usuario = v;
+    public void setPasswordHash(String v) {
+        this.passwordHash = v;
     }
 
-    public String getClave() {
-        return clave;
+    public String getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setClave(String v) {
-        this.clave = v;
+    public void setFechaCreacion(String v) {
+        this.fechaCreacion = v;
     }
 
-    public String getPerfil() {
-        return perfil;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setPerfil(String v) {
-        this.perfil = v;
+    public void setEstado(String v) {
+        this.estado = v;
     }
 }

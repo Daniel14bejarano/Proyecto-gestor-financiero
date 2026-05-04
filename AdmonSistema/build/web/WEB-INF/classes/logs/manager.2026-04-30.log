@@ -53,3 +53,7 @@
 30-Apr-2026 19:42:56.810 INFO [http-nio-8080-exec-18] org.apache.catalina.core.ApplicationContext.log Manager: restart: Reloading web application '/AdmonSistema'
 30-Apr-2026 19:45:38.947 INFO [http-nio-8080-exec-28] org.apache.catalina.core.ApplicationContext.log Manager: list: Listing contexts for virtual host 'localhost'
 30-Apr-2026 19:45:38.952 INFO [http-nio-8080-exec-29] org.apache.catalina.core.ApplicationContext.log Manager: undeploy: Undeploying web application at '/AdmonSistema'
+30-Apr-2026 19:45:49.893 INFO [http-nio-8080-exec-27] org.apache.catalina.core.ApplicationContext.log Manager: list: Listing contexts for virtual host 'localhost'
+30-Apr-2026 19:45:49.894 INFO [http-nio-8080-exec-22] org.apache.catalina.core.ApplicationContext.log Manager: list: Listing contexts for virtual host 'localhost'
+30-Apr-2026 19:45:49.901 INFO [http-nio-8080-exec-16] org.apache.catalina.core.ApplicationContext.log Manager: install: Installing context configuration at 'file:/C:/Users/camdi/AppData/Local/Temp/context12959190839473881637.xml'
+30-Apr-2026 19:45:50.517 INFO [http-nio-8080-exec-30] org.apache.catalina.core.ApplicationContext.log Manager: start: Starting web application '/AdmonSistema'

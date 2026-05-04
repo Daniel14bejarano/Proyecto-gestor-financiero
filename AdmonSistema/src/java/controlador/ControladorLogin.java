@@ -17,21 +17,20 @@ public class ControladorLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-        String usuario = request.getParameter("cusuario");
-        String clave   = request.getParameter("cclave");
-
-        UsuarioDAO udao = new UsuarioDAO();
-        Usuario u = udao.validarLogin(usuario, clave);
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario u = dao.validarLogin(username, password);
 
         if (u != null) {
-            // Login correcto: guardar usuario en sesión
             HttpSession session = request.getSession();
-            session.setAttribute("usuarioLogueado", u.getUsuario());
-            session.setAttribute("perfilUsuario",   u.getPerfil());
+            session.setAttribute("idUsuario", u.getIdUsuario());
+            session.setAttribute("username", u.getUsername());
+            session.setAttribute("nombreCompleto", u.getNombre() + " " + u.getApellido());
+            session.setAttribute("idPerfil", u.getIdPerfil());
             response.sendRedirect("dashboard.jsp");
         } else {
-            // Login incorrecto
             response.sendRedirect("login.jsp?error=1");
         }
     }
