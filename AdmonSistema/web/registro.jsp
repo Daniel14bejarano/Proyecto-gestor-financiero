@@ -6,6 +6,10 @@
     }
     String error = request.getParameter("error");
 %>
+<%@page import="modelo.PerfilDAO, modelo.Perfil"%>
+<%
+    List<Perfil> perfiles = new PerfilDAO().listarTodos();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,6 +47,14 @@
                 <div class="form-group">
                     <label>Confirmar contraseña</label>
                     <input type="password" name="confirm" required>
+                </div>
+                <div class="form-group">
+                    <label>Perfil</label>
+                    <select name="cperfil">
+                        <% for (Perfil p : perfiles) {%>
+                        <option value="<%=p.getPerfil()%>"><%=p.getPerfil()%></option>
+                        <% }%>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Registrarse</button>
             </form>

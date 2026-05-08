@@ -71,6 +71,29 @@ public class UsuarioDAO {
         }
     }
 
+    public java.util.List<Usuario> listarTodos() {
+        java.util.List<Usuario> lista = new java.util.ArrayList<>();
+        String q = "SELECT u.*, p.perfil FROM usuarios u "
+                + "JOIN perfiles p ON u.id_perfil = p.id_perfil";
+        try (Connection con = new Conexion().crearConexion(); PreparedStatement ps = con.prepareStatement(q); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                // mapRow no trae perfil, lo mapeamos manual
+                u.setIdUsuario(rs.getInt("id_usuario"));
+                u.setNombre(rs.getString("nombre"));
+                u.setApellido(rs.getString("apellido"));
+                u.setIdPerfil(rs.getInt("id_perfil"));
+                u.setUsername(rs.getString("username"));
+                u.setPasswordHash(rs.getString("password_hash"));
+                u.setEstado(rs.getString("estado"));
+                lista.add(u);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR listarTodos: " + e.getMessage());
+        }
+        return lista;
+    }
+
     private void mapRow(ResultSet rs, Usuario u) throws SQLException {
         u.setIdUsuario(rs.getInt("id_usuario"));
         u.setNombre(rs.getString("nombre"));
