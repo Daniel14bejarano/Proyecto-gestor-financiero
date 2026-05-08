@@ -16,9 +16,10 @@ public class ControladorPerfil extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        // Verificar que sea admin
-        if (!"admin".equals(request.getSession().getAttribute("perfilUsuario"))) {
-            response.sendRedirect("listaUsuarios.jsp");
+        Integer idPerfilSesion = (Integer) request.getSession().getAttribute("idPerfil");
+
+        if (idPerfilSesion == null || idPerfilSesion != 1) {
+            response.sendRedirect("dashboard.jsp");
             return;
         }
 

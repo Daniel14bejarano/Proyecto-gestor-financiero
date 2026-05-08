@@ -7,10 +7,15 @@
         response.sendRedirect("login.jsp");
         return;
     }
+
     int idPerfil = (int) session.getAttribute("idPerfil");
-    String nombreUsuario = (String) session.getAttribute("nombreCompleto");
+    String nombreUsuario
+            = (String) session.getAttribute("nombreCompleto");
+
+    // SOLO ADMIN
     boolean esAdmin = idPerfil == 1;
 %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,9 +23,9 @@
         <title>Lista de Usuarios</title>
         <link rel="stylesheet" href="styles.css">
         <style>body {
-            padding: 30px;
-            align-items: flex-start;
-        }</style>
+                padding: 30px;
+                align-items: flex-start;
+            }</style>
     </head>
     <body>
         <div class="topbar" style="max-width:100%;">
@@ -54,18 +59,38 @@
                         UsuarioDAO udao = new UsuarioDAO();
                         List<Usuario> lista = udao.listarTodos();
                         for (Usuario u : lista) {
-                            String perfilClass = u.getIdPerfil() == 1 ? "badge-admin" : "badge-user";
+                            String perfilClass = u.getPerfil().equalsIgnoreCase("admin")
+                                    ? "badge-admin"
+                                    : "badge-user";
                     %>
                     <tr>
                         <td><%=u.getNombre()%></td>
                         <td><%=u.getApellido()%></td>
                         <td><%=u.getUsername()%></td>
-                        <td><span class="badge <%=perfilClass%>"><%=u.getEstado()%></span></td>
+
+                        <td>
+                            <span class="badge <%=u.getPerfil().equalsIgnoreCase("admin") ? "badge-admin" : "badge-user"%>">
+                                <%=u.getPerfil()%>
+                            </span>
+                        </td>
+
                         <td><%=u.getEstado()%></td>
-                        <% if (esAdmin) { %>
+
+                        <% if (esAdmin) {%>
                         <td>
                             <div class="td-actions">
-                                <a href="gestionPerfiles.jsp" class="btn btn-edit">Gestionar perfil</a>
+
+                                <a href="editarUsuario.jsp?id=<%=u.getIdUsuario()%>"
+                                   class="btn btn-edit">
+                                    Editar
+                                </a>
+
+                                <a href="eliminarUsuario?id=<%=u.getIdUsuario()%>"
+                                   class="btn btn-danger"
+                                   onclick="return confirm('¿Eliminar usuario?');">
+                                    Eliminar
+                                </a>
+
                             </div>
                         </td>
                         <% } %>

@@ -6,6 +6,7 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private int idPerfil;
+    private String perfil;
     private String username;
     private String passwordHash;
     private String fechaCreacion;
@@ -41,6 +42,15 @@ public class Usuario {
 
     public void setIdPerfil(int v) {
         this.idPerfil = v;
+    }
+
+    // GETTER Y SETTER NUEVOS
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 
     public String getUsername() {

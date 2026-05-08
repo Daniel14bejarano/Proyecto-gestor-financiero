@@ -56,28 +56,47 @@ public class PerfilDAO {
     }
 
     public int asignarAUsuario(int idUsuario, int idPerfil) {
-    int est = 0;
-    try (Connection con = new Conexion().crearConexion()) {
-        // Obtener nombre del perfil
-        String nombrePerfil = null;
-        try (PreparedStatement ps = con.prepareStatement(
-                "SELECT perfil FROM perfiles WHERE id_perfil=?")) {
-            ps.setInt(1, idPerfil);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) nombrePerfil = rs.getString("perfil");
-        }
-        // Actualizar usuario — tabla usuarios, llave idusu
-        if (nombrePerfil != null) {
+        int est = 0;
+        try (Connection con = new Conexion().crearConexion()) {
+            // Obtener nombre del perfil
+            String nombrePerfil = null;
             try (PreparedStatement ps = con.prepareStatement(
-                    "UPDATE usuarios SET id_perfil=? WHERE idusu=?")) {
+                    "SELECT perfil FROM perfiles WHERE id_perfil=?")) {
                 ps.setInt(1, idPerfil);
-                ps.setInt(2, idUsuario);
-                est = ps.executeUpdate();
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    nombrePerfil = rs.getString("perfil");
+                }
             }
+            // Actualizar usuario — tabla usuarios, llave idusu
+            if (nombrePerfil != null) {
+                try (PreparedStatement ps = con.prepareStatement(
+                        "UPDATE usuarios SET id_perfil=? WHERE id_usuario=?")) {
+                    ps.setInt(1, idPerfil);
+                    ps.setInt(2, idUsuario);
+                    est = ps.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR asignar perfil: " + e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println("ERROR asignar perfil: " + e.getMessage());
+        return est;
     }
-    return est;
-}
+
+    public Perfil obtenerPorId(int id) {
+        String q = "SELECT * FROM perfiles WHERE id_perfil = ?";
+        try (Connection con = new Conexion().crearConexion(); PreparedStatement ps = con.prepareStatement(q)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Perfil p = new Perfil();
+                p.setIdPerfil(rs.getInt("id_perfil"));
+                p.setPerfil(rs.getString("perfil"));
+                return p;
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR obtenerPorId perfil: " + e.getMessage());
+        }
+        return null;
+    }
 }
