@@ -146,7 +146,9 @@ public class UsuarioDAO {
     }
 
     public Usuario obtenerPorId(int id) {
-        String q = "SELECT * FROM usuarios WHERE id_usuario=?";
+        String q = "SELECT u.*, p.perfil FROM usuarios u "
+                + "JOIN perfiles p ON u.id_perfil = p.id_perfil "
+                + "WHERE u.id_usuario = ?";
         try (Connection con = new Conexion().crearConexion(); PreparedStatement ps = con.prepareStatement(q)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();

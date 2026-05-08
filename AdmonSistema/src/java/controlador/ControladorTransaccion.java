@@ -60,7 +60,11 @@ public class ControladorTransaccion extends HttpServlet {
         if ("eliminar".equals(accion)) {
             int idUsuario = (int) request.getSession().getAttribute("idUsuario");
             int idTransaccion = Integer.parseInt(request.getParameter("id"));
-            new TransaccionDAO().eliminar(idTransaccion, idUsuario);
+            System.out.println("=== ELIMINAR TRANSACCION ===");
+            System.out.println("idTransaccion: " + idTransaccion);
+            System.out.println("idUsuario:     " + idUsuario);
+            int resultado = new TransaccionDAO().eliminar(idTransaccion, idUsuario);
+            System.out.println("Resultado eliminar: " + resultado);
             response.sendRedirect("registros.jsp?exito=3");
         }
     }

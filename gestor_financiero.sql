@@ -66,6 +66,24 @@ CREATE TABLE auditoria_transacciones (
         ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+CREATE TABLE actividades (
+    id_actividad INT PRIMARY KEY AUTO_INCREMENT,
+    nom_actividad VARCHAR(45) NOT NULL,
+    enlace VARCHAR(100)
+);
+
+CREATE TABLE gesActividad (
+    idgesActividad INT PRIMARY KEY AUTO_INCREMENT,
+    id_perfil INT,
+    id_actividad INT,
+    CONSTRAINT fk_ges_perfil FOREIGN KEY (id_perfil)
+        REFERENCES perfiles(id_perfil)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_ges_actividad FOREIGN KEY (id_actividad)
+        REFERENCES actividades(id_actividad)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- ─── Datos iniciales ───────────────────────────────────────
 
 INSERT INTO perfiles (perfil) VALUES ('admin'), ('user');
@@ -82,15 +100,24 @@ INSERT INTO categorias (nombre, tipo, descripcion) VALUES
 ('Salud',          'gasto',   'Gastos médicos y medicamentos'),
 ('Entretenimiento','gasto',   'Ocio, streaming, salidas');
 
--- Usuario admin de prueba (password: admin)
 INSERT INTO usuarios (nombre, apellido, id_perfil, username, password_hash)
 VALUES ('Admin', 'Sistema', 1, 'admin', '21232f297a57a5a743894a0e4a801fc3');
 
--- Balance inicial para admin
 INSERT INTO balances (id_usuario, total_ingresos, total_gastos, balance_actual)
 VALUES (1, 0.00, 0.00, 0.00);
 
--- ─── Triggers corregidos ───────────────────────────────────
+INSERT INTO actividades (nom_actividad, enlace) VALUES
+('Ver registros',     'registros.jsp'),
+('Registrar ingreso', 'regIngreso.jsp'),
+('Registrar gasto',   'regGasto.jsp'),
+('Ver balance',       'balance.jsp'),
+('Ver auditoría',     'auditoria.jsp');
+
+INSERT INTO gesActividad (id_perfil, id_actividad) VALUES
+(1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
+(2, 1), (2, 2), (2, 3), (2, 4), (2, 5);
+
+-- ─── Triggers ───────────────────────────────────────
 
 DELIMITER $$
 
@@ -112,7 +139,6 @@ BEGIN
         WHERE id_usuario = NEW.id_usuario;
     END IF;
 
-    -- Recalcular balance_actual con los valores ya actualizados
     SELECT total_ingresos, total_gastos INTO v_ingresos, v_gastos
     FROM balances WHERE id_usuario = NEW.id_usuario;
 
@@ -135,21 +161,18 @@ BEGIN
     SELECT tipo INTO tipo_old FROM categorias WHERE id_categoria = OLD.id_categoria;
     SELECT tipo INTO tipo_new FROM categorias WHERE id_categoria = NEW.id_categoria;
 
-    -- Revertir efecto anterior
     IF tipo_old = 'ingreso' THEN
         UPDATE balances SET total_ingresos = total_ingresos - OLD.monto WHERE id_usuario = OLD.id_usuario;
     ELSE
         UPDATE balances SET total_gastos = total_gastos - OLD.monto WHERE id_usuario = OLD.id_usuario;
     END IF;
 
-    -- Aplicar nuevo efecto
     IF tipo_new = 'ingreso' THEN
         UPDATE balances SET total_ingresos = total_ingresos + NEW.monto WHERE id_usuario = NEW.id_usuario;
     ELSE
         UPDATE balances SET total_gastos = total_gastos + NEW.monto WHERE id_usuario = NEW.id_usuario;
     END IF;
 
-    -- Recalcular balance_actual
     SELECT total_ingresos, total_gastos INTO v_ingresos, v_gastos
     FROM balances WHERE id_usuario = NEW.id_usuario;
 
@@ -176,7 +199,6 @@ BEGIN
         UPDATE balances SET total_gastos = total_gastos - OLD.monto WHERE id_usuario = OLD.id_usuario;
     END IF;
 
-    -- Recalcular balance_actual
     SELECT total_ingresos, total_gastos INTO v_ingresos, v_gastos
     FROM balances WHERE id_usuario = OLD.id_usuario;
 
@@ -184,9 +206,7 @@ BEGIN
     WHERE id_usuario = OLD.id_usuario;
 
     INSERT INTO auditoria_transacciones (id_transaccion, accion, descripcion)
-    VALUES (OLD.id_transaccion, 'DELETE', CONCAT('Eliminado monto: ', OLD.monto));
+    VALUES (NULL, 'DELETE', CONCAT('Eliminado id: ', OLD.id_transaccion, ' monto: ', OLD.monto));
 END$$
 
 DELIMITER ;
-
-SELECT * FROM usuarios;

@@ -28,7 +28,7 @@
             }</style>
     </head>
     <body>
-        <div class="topbar" style="max-width:100%;">
+        <div class="topbar topbar-standalone" style="max-width:100%;">
             <span>Hola, <strong><%=nombreUsuario%></strong> &nbsp;|&nbsp;
                 <span class="badge <%=esAdmin ? "badge-admin" : "badge-user"%>"><%=esAdmin ? "Admin" : "Usuario"%></span>
             </span>
@@ -37,6 +37,11 @@
                 <a href="logout" class="btn btn-secondary">Cerrar sesión</a>
             </div>
         </div>
+        <script>
+            if (window.self !== window.top) {
+                document.querySelector('.topbar-standalone').style.display = 'none';
+            }
+        </script>
 
         <div class="page-header" style="max-width:100%;">
             <h2>Listado de <span>Usuarios</span></h2>
@@ -79,18 +84,13 @@
                         <% if (esAdmin) {%>
                         <td>
                             <div class="td-actions">
-
                                 <a href="editarUsuario.jsp?id=<%=u.getIdUsuario()%>"
-                                   class="btn btn-edit">
-                                    Editar
-                                </a>
-
+                                   target="_top"
+                                   class="btn btn-edit">Editar</a>
                                 <a href="eliminarUsuario?id=<%=u.getIdUsuario()%>"
+                                   target="_top"
                                    class="btn btn-danger"
-                                   onclick="return confirm('¿Eliminar usuario?');">
-                                    Eliminar
-                                </a>
-
+                                   onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
                             </div>
                         </td>
                         <% } %>

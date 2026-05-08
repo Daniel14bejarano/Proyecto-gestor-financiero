@@ -15,9 +15,9 @@
         <meta charset="UTF-8"><title>GestorF – Registros</title>
         <link rel="stylesheet" href="styles.css">
         <style>body{
-            padding:30px;
-            align-items:flex-start;
-        }</style>
+                padding:30px;
+                align-items:flex-start;
+            }</style>
     </head>
     <body>
         <div class="page-header" style="max-width:100%;">
@@ -64,9 +64,12 @@
                         </td>
                         <td>
                             <div class="td-actions">
-                                <a href="editarTransaccion.jsp?id=<%=t.getIdTransaccion()%>" class="btn btn-edit">Editar</a>
+                                <a href="editarTransaccion.jsp?id=<%=t.getIdTransaccion()%>" 
+                                   target="_top"
+                                   class="btn btn-edit">Editar</a>
                                 <a href="controladorTransaccion?accion=eliminar&id=<%=t.getIdTransaccion()%>"
                                    class="btn btn-danger"
+                                   target="_top"
                                    onclick="return confirm('¿Eliminar este registro?')">Eliminar</a>
                             </div>
                         </td>

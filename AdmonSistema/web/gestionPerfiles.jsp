@@ -5,7 +5,7 @@
         response.sendRedirect("login.jsp");
         return;
     }
-    if ((int)session.getAttribute("idPerfil") != 1) {
+    if ((int) session.getAttribute("idPerfil") != 1) {
         response.sendRedirect("dashboard.jsp");
         return;
     }
@@ -27,13 +27,18 @@
     </head>
     <body>
 
-        <div class="topbar" style="max-width:900px;">
+        <div class="topbar topbar-standalone" style="max-width:900px;">
             <span>Hola, <strong><%=nombreUsuario%></strong> &nbsp;|&nbsp; <span class="badge badge-admin">Admin</span></span>
             <div style="display:flex;gap:8px;">
                 <a href="dashboard.jsp" class="btn btn-secondary">← Panel</a>
                 <a href="logout" class="btn btn-secondary">Cerrar sesión</a>
             </div>
         </div>
+        <script>
+            if (window.self !== window.top) {
+                document.querySelector('.topbar-standalone').style.display = 'none';
+            }
+        </script>
 
         <div style="max-width:900px; width:100%; display:flex; gap:24px; margin-top:8px;">
 
